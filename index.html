@@ -1,0 +1,2496 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>Introduction to AI • Interactive Executive Workshop</title>
+  <style>
+    :root {
+      --bg-page: #f8fafc;
+      --bg-card: #ffffff;
+      --bg-subtle: #f1f5f9;
+      --text-main: #0f172a;
+      --text-muted: #475569;
+      --text-dim: #64748b;
+      --border-light: #e2e8f0;
+      --border-hover: #cbd5e1;
+      
+      --primary: #4338ca;
+      --primary-hover: #3730a3;
+      --primary-light: #eef2ff;
+      --primary-border: #c7d2fe;
+      --primary-glow: rgba(67, 56, 202, 0.22);
+      
+      --accent-ai: #0284c7;
+      --accent-ai-light: #f0f9ff;
+      --accent-ai-border: #bae6fd;
+      
+      --accent-not-ai: #d97706;
+      --accent-not-ai-light: #fffbeb;
+      --accent-not-ai-border: #fde68a;
+
+      --accent-green: #059669;
+      --accent-green-light: #ecfdf5;
+      --accent-green-border: #a7f3d0;
+      --accent-green-glow: rgba(5, 150, 105, 0.25);
+
+      --accent-red: #dc2626;
+      --accent-red-light: #fef2f2;
+      --accent-red-border: #fecaca;
+      --accent-red-glow: rgba(220, 38, 38, 0.25);
+
+      --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+      --shadow-md: 0 4px 12px -1px rgba(0, 0, 0, 0.07), 0 2px 6px -2px rgba(0, 0, 0, 0.05);
+      --shadow-lg: 0 10px 25px -4px rgba(0, 0, 0, 0.08), 0 4px 10px -2px rgba(0, 0, 0, 0.04);
+      --shadow-card: 0 1px 3px rgba(0, 0, 0, 0.06), 0 6px 16px rgba(0, 0, 0, 0.03);
+
+      --font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Inter", "Helvetica Neue", Arial, sans-serif;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      -webkit-tap-highlight-color: transparent;
+      user-select: none;
+    }
+
+    body {
+      background-color: var(--bg-page);
+      background-image: 
+        radial-gradient(at 10% 10%, rgba(99, 102, 241, 0.04) 0px, transparent 50%),
+        radial-gradient(at 90% 90%, rgba(14, 165, 233, 0.04) 0px, transparent 50%);
+      background-attachment: fixed;
+      color: var(--text-main);
+      font-family: var(--font-family);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      overflow-x: hidden;
+      line-height: 1.5;
+    }
+
+    /* Top Navigation Header */
+    header {
+      width: 100%;
+      max-width: 920px;
+      padding: 0.9rem 1.25rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: rgba(255, 255, 255, 0.94);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border-light);
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.02);
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .brand-tag {
+      background: #1e293b;
+      color: #ffffff;
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.05em;
+      padding: 0.22rem 0.55rem;
+      border-radius: 6px;
+      text-transform: uppercase;
+    }
+
+    .brand-title {
+      font-size: 0.98rem;
+      font-weight: 700;
+      color: #0f172a;
+      letter-spacing: -0.01em;
+    }
+
+    .brand-subtitle {
+      font-size: 0.76rem;
+      color: var(--text-dim);
+      font-weight: 500;
+    }
+
+    .header-controls {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .icon-btn {
+      background: #ffffff;
+      border: 1px solid var(--border-light);
+      color: var(--text-muted);
+      width: 36px;
+      height: 36px;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      font-size: 0.95rem;
+      transition: all 0.18s ease;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .icon-btn:hover {
+      background: var(--bg-subtle);
+      border-color: var(--border-hover);
+      color: var(--text-main);
+      transform: translateY(-1px);
+    }
+
+    /* Main Container */
+    main {
+      width: 100%;
+      max-width: 920px;
+      flex: 1;
+      padding: 1.5rem 1.25rem 3rem 1.25rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      position: relative;
+    }
+
+    /* Step Navigation Stepper */
+    .steps-nav {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      margin-bottom: 1.75rem;
+      width: 100%;
+      flex-wrap: wrap;
+    }
+
+    .step-pill {
+      display: flex;
+      align-items: center;
+      gap: 0.45rem;
+      padding: 0.4rem 0.95rem;
+      border-radius: 9999px;
+      font-size: 0.82rem;
+      font-weight: 600;
+      background: #ffffff;
+      border: 1px solid var(--border-light);
+      color: var(--text-dim);
+      transition: all 0.25s ease;
+      cursor: pointer;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .step-pill.active {
+      background: #ffffff;
+      border-color: var(--primary);
+      color: var(--primary);
+      box-shadow: 0 2px 8px rgba(67, 56, 202, 0.12);
+      font-weight: 700;
+    }
+
+    .step-pill.completed {
+      background: var(--accent-green-light);
+      border-color: var(--accent-green-border);
+      color: var(--accent-green);
+    }
+
+    /* Screen Transitions */
+    .view-screen {
+      width: 100%;
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      animation: smoothFadeUp 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .view-screen.active {
+      display: flex;
+    }
+
+    @keyframes smoothFadeUp {
+      from { opacity: 0; transform: translateY(8px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Hero Splash View */
+    .hero-card {
+      background: #ffffff;
+      border: 1px solid var(--border-light);
+      border-radius: 20px;
+      padding: 2.75rem 2.25rem;
+      text-align: center;
+      max-width: 600px;
+      width: 100%;
+      box-shadow: var(--shadow-lg);
+      margin-top: 0.5rem;
+    }
+
+    .hero-badge-row {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 1.25rem;
+    }
+
+    .hero-pill {
+      background: var(--primary-light);
+      border: 1px solid var(--primary-border);
+      color: var(--primary);
+      font-size: 0.78rem;
+      font-weight: 700;
+      padding: 0.3rem 0.8rem;
+      border-radius: 9999px;
+      letter-spacing: 0.02em;
+    }
+
+    .hero-title {
+      font-size: 1.85rem;
+      font-weight: 800;
+      letter-spacing: -0.025em;
+      color: #0f172a;
+      margin-bottom: 0.85rem;
+      line-height: 1.25;
+    }
+
+    .hero-desc {
+      color: var(--text-muted);
+      font-size: 0.98rem;
+      line-height: 1.6;
+      margin-bottom: 2rem;
+      max-width: 480px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .hero-modules-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+      margin-bottom: 2.25rem;
+      text-align: left;
+    }
+
+    @media (max-width: 540px) {
+      .hero-modules-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .hero-module-box {
+      background: var(--bg-subtle);
+      border: 1px solid var(--border-light);
+      border-radius: 12px;
+      padding: 1.1rem;
+      transition: all 0.2s ease;
+    }
+
+    .hero-module-box:hover {
+      background: #ffffff;
+      border-color: var(--border-hover);
+      box-shadow: var(--shadow-sm);
+    }
+
+    .hero-module-header {
+      display: flex;
+      align-items: center;
+      gap: 0.45rem;
+      font-size: 0.92rem;
+      font-weight: 700;
+      color: #1e293b;
+      margin-bottom: 0.35rem;
+    }
+
+    .hero-module-box p {
+      font-size: 0.82rem;
+      color: var(--text-dim);
+      line-height: 1.45;
+    }
+
+    /* Shared Buttons */
+    .btn-primary {
+      background: #1e293b;
+      color: #ffffff;
+      font-weight: 700;
+      font-size: 0.98rem;
+      padding: 0.85rem 1.85rem;
+      border-radius: 12px;
+      border: 1px solid #0f172a;
+      cursor: pointer;
+      box-shadow: 0 2px 6px rgba(15, 23, 42, 0.15);
+      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.55rem;
+      width: 100%;
+      max-width: 300px;
+    }
+
+    .btn-primary:hover {
+      background: #0f172a;
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px rgba(15, 23, 42, 0.25);
+    }
+
+    .btn-primary:active {
+      transform: translateY(0);
+    }
+
+    .btn-secondary {
+      background: #ffffff;
+      color: var(--text-main);
+      font-weight: 600;
+      font-size: 0.9rem;
+      padding: 0.65rem 1.35rem;
+      border-radius: 10px;
+      border: 1px solid var(--border-light);
+      cursor: pointer;
+      transition: all 0.18s ease;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.45rem;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .btn-secondary:hover {
+      background: var(--bg-subtle);
+      border-color: var(--border-hover);
+    }
+
+    /* =========================================================
+       ROUND 1 STYLES (Classification Drag & Drop)
+       ========================================================= */
+    .round-header {
+      text-align: center;
+      margin-bottom: 1.5rem;
+      width: 100%;
+    }
+
+    .round-tag {
+      display: inline-block;
+      font-size: 0.74rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--primary);
+      background: var(--primary-light);
+      padding: 0.22rem 0.7rem;
+      border-radius: 9999px;
+      margin-bottom: 0.5rem;
+      border: 1px solid var(--primary-border);
+    }
+
+    .round-title {
+      font-size: 1.65rem;
+      font-weight: 800;
+      color: #0f172a;
+      letter-spacing: -0.02em;
+      margin-bottom: 0.35rem;
+    }
+
+    .round-subtitle {
+      font-size: 0.92rem;
+      color: var(--text-muted);
+      max-width: 520px;
+      margin: 0 auto;
+    }
+
+    .sorting-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.15rem;
+      width: 100%;
+      margin-bottom: 1.5rem;
+    }
+
+    @media (max-width: 680px) {
+      .sorting-grid {
+        grid-template-columns: 1fr;
+        gap: 0.9rem;
+      }
+    }
+
+    .drop-zone {
+      background: #ffffff;
+      border: 2px dashed #cbd5e1;
+      border-radius: 16px;
+      padding: 1.1rem;
+      min-height: 220px;
+      display: flex;
+      flex-direction: column;
+      transition: all 0.22s ease;
+      position: relative;
+    }
+
+    .drop-zone.ai-zone {
+      border-color: #cbd5e1;
+      background: #fafcff;
+    }
+
+    .drop-zone.not-ai-zone {
+      border-color: #cbd5e1;
+      background: #fdfcf9;
+    }
+
+    .drop-zone.drag-over {
+      border-style: solid;
+      transform: translateY(-2px);
+    }
+
+    .drop-zone.ai-zone.drag-over {
+      border-color: var(--accent-ai);
+      background: var(--accent-ai-light);
+      box-shadow: 0 0 0 4px rgba(2, 132, 199, 0.12);
+    }
+
+    .drop-zone.not-ai-zone.drag-over {
+      border-color: var(--accent-not-ai);
+      background: var(--accent-not-ai-light);
+      box-shadow: 0 0 0 4px rgba(217, 119, 6, 0.12);
+    }
+
+    .zone-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 0.9rem;
+      padding-bottom: 0.65rem;
+      border-bottom: 1px solid var(--border-light);
+    }
+
+    .zone-title {
+      font-size: 1rem;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 0.45rem;
+    }
+
+    .ai-zone .zone-title {
+      color: #0369a1;
+    }
+
+    .not-ai-zone .zone-title {
+      color: #b45309;
+    }
+
+    .zone-count {
+      font-size: 0.74rem;
+      font-weight: 700;
+      padding: 0.2rem 0.6rem;
+      border-radius: 9999px;
+      background: #f1f5f9;
+      color: var(--text-dim);
+      border: 1px solid var(--border-light);
+    }
+
+    .zone-content {
+      display: flex;
+      flex-direction: column;
+      gap: 0.65rem;
+      flex: 1;
+    }
+
+    .empty-placeholder {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      flex: 1;
+      min-height: 120px;
+      color: var(--text-dim);
+      font-size: 0.85rem;
+      text-align: center;
+      border: 1px dashed #e2e8f0;
+      border-radius: 12px;
+      padding: 1.25rem;
+      background: rgba(255, 255, 255, 0.6);
+      pointer-events: none;
+    }
+
+    .empty-placeholder span {
+      font-size: 1.4rem;
+      margin-bottom: 0.35rem;
+      opacity: 0.6;
+    }
+
+    .tray-section {
+      width: 100%;
+      background: #ffffff;
+      border: 1px solid var(--border-light);
+      border-radius: 16px;
+      padding: 1.25rem;
+      margin-bottom: 1.5rem;
+      box-shadow: var(--shadow-card);
+    }
+
+    .tray-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 0.95rem;
+    }
+
+    .tray-title {
+      font-size: 0.92rem;
+      font-weight: 700;
+      color: #1e293b;
+      display: flex;
+      align-items: center;
+      gap: 0.45rem;
+    }
+
+    .tray-items-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 0.75rem;
+      min-height: 70px;
+    }
+
+    .scenario-card {
+      background: #ffffff;
+      border: 1px solid var(--border-light);
+      border-radius: 12px;
+      padding: 0.9rem 1rem;
+      cursor: grab;
+      display: flex;
+      flex-direction: column;
+      gap: 0.55rem;
+      box-shadow: var(--shadow-sm);
+      transition: transform 0.18s ease, box-shadow 0.18s ease, border-color 0.18s ease;
+      touch-action: none;
+      position: relative;
+    }
+
+    .scenario-card:hover {
+      border-color: #cbd5e1;
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-md);
+    }
+
+    .scenario-card.dragging {
+      opacity: 0.35;
+      cursor: grabbing;
+    }
+
+    .card-text-row {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.65rem;
+    }
+
+    .card-letter {
+      background: #f1f5f9;
+      color: #334155;
+      border: 1px solid #e2e8f0;
+      font-weight: 700;
+      font-size: 0.8rem;
+      width: 26px;
+      height: 26px;
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .card-text {
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: #1e293b;
+      line-height: 1.4;
+      flex: 1;
+    }
+
+    .card-actions-row {
+      display: flex;
+      gap: 0.4rem;
+      margin-top: 0.2rem;
+    }
+
+    .quick-assign-btn {
+      flex: 1;
+      padding: 0.35rem 0.55rem;
+      font-size: 0.75rem;
+      font-weight: 600;
+      border-radius: 6px;
+      border: 1px solid var(--border-light);
+      cursor: pointer;
+      background: var(--bg-subtle);
+      color: var(--text-dim);
+      transition: all 0.15s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.25rem;
+    }
+
+    .quick-assign-btn:hover {
+      color: var(--text-main);
+      background: #ffffff;
+      border-color: var(--border-hover);
+    }
+
+    .quick-assign-btn.btn-to-ai:hover,
+    .scenario-card[data-zone="ai"] .quick-assign-btn.btn-to-ai {
+      background: var(--accent-ai-light);
+      border-color: var(--accent-ai-border);
+      color: #0369a1;
+      font-weight: 700;
+    }
+
+    .quick-assign-btn.btn-to-not-ai:hover,
+    .scenario-card[data-zone="not-ai"] .quick-assign-btn.btn-to-not-ai {
+      background: var(--accent-not-ai-light);
+      border-color: var(--accent-not-ai-border);
+      color: #b45309;
+      font-weight: 700;
+    }
+
+    .quick-assign-btn.btn-to-tray {
+      background: #ffffff;
+      border-color: var(--border-light);
+      color: var(--text-dim);
+    }
+
+    .quick-assign-btn.btn-to-tray:hover {
+      background: #f8fafc;
+      color: #0f172a;
+    }
+
+    #drag-ghost {
+      position: fixed;
+      top: 0;
+      left: 0;
+      pointer-events: none;
+      z-index: 9999;
+      transform: translate3d(-1000px, -1000px, 0);
+      opacity: 0.95;
+      box-shadow: 0 16px 32px rgba(15, 23, 42, 0.16);
+      border-color: #94a3b8;
+      background: #ffffff;
+      display: none;
+    }
+
+    .round-actions {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.65rem;
+      width: 100%;
+      margin-top: 0.5rem;
+    }
+
+    .round-actions-hint {
+      font-size: 0.84rem;
+      color: var(--text-dim);
+    }
+
+    /* =========================================================
+       ROUND 2 STYLES (Single-Card Swipe Flashcard)
+       No blocking cards, clean stepper, clear hierarchy!
+       ========================================================= */
+    .swipe-arena {
+      width: 100%;
+      max-width: 460px;
+      margin: 1rem auto 1rem auto;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      position: relative;
+    }
+
+    /* Case Progression Stepper */
+    .case-stepper {
+      display: flex;
+      justify-content: center;
+      gap: 0.45rem;
+      margin-bottom: 1.25rem;
+      width: 100%;
+      flex-wrap: wrap;
+    }
+
+    .case-step {
+      display: flex;
+      align-items: center;
+      gap: 0.35rem;
+      padding: 0.32rem 0.75rem;
+      border-radius: 9999px;
+      font-size: 0.78rem;
+      font-weight: 600;
+      color: var(--text-dim);
+      background: #ffffff;
+      border: 1px solid var(--border-light);
+      transition: all 0.2s ease;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .case-step.active {
+      background: var(--primary-light);
+      border-color: var(--primary-border);
+      color: var(--primary);
+      font-weight: 700;
+      box-shadow: 0 1px 4px rgba(67, 56, 202, 0.15);
+    }
+
+    .case-step.completed {
+      background: var(--accent-green-light);
+      border-color: var(--accent-green-border);
+      color: var(--accent-green);
+    }
+
+    /* Clean Card Stage (Single card only, NO fake blocking shadow) */
+    .swipe-card-stage {
+      width: 100%;
+      min-height: 310px;
+      position: relative;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .swipe-card {
+      width: 100%;
+      min-height: 310px;
+      background: #ffffff;
+      border: 1.5px solid var(--border-light);
+      border-radius: 20px;
+      padding: 1.75rem 1.65rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      box-shadow: var(--shadow-lg);
+      touch-action: none;
+      user-select: none;
+      will-change: transform;
+      cursor: grab;
+      position: relative;
+      z-index: 10;
+      transition: border-color 0.2s ease;
+    }
+
+    .swipe-card.grabbing {
+      cursor: grabbing;
+    }
+
+    .swipe-card-badge-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .swipe-card-id {
+      background: var(--bg-subtle);
+      border: 1px solid var(--border-light);
+      color: #334155;
+      font-weight: 700;
+      font-size: 0.85rem;
+      padding: 0.25rem 0.65rem;
+      border-radius: 8px;
+    }
+
+    .swipe-card-progress {
+      font-size: 0.82rem;
+      font-weight: 600;
+      color: var(--text-dim);
+    }
+
+    .swipe-card-body {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      padding: 1rem 0.5rem;
+    }
+
+    .swipe-card-icon {
+      font-size: 2.5rem;
+      margin-bottom: 0.85rem;
+    }
+
+    .swipe-card-title {
+      font-size: 1.22rem;
+      font-weight: 700;
+      color: #0f172a;
+      line-height: 1.45;
+      letter-spacing: -0.01em;
+    }
+
+    .swipe-card-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-top: 1px solid var(--border-light);
+      padding-top: 0.85rem;
+      font-size: 0.78rem;
+      color: var(--text-dim);
+      font-weight: 500;
+    }
+
+    /* Swipe Dynamic Stamps */
+    .swipe-stamp {
+      position: absolute;
+      top: 1.5rem;
+      padding: 0.4rem 0.95rem;
+      font-size: 1.05rem;
+      font-weight: 800;
+      letter-spacing: 0.05em;
+      border-radius: 10px;
+      border: 2.5px solid;
+      text-transform: uppercase;
+      opacity: 0;
+      pointer-events: none;
+      transform: scale(0.9);
+      transition: opacity 0.1s linear;
+      z-index: 20;
+    }
+
+    .swipe-stamp.use-ai {
+      right: 1.5rem;
+      color: var(--accent-green);
+      background: var(--accent-green-light);
+      border-color: var(--accent-green);
+      transform: rotate(10deg);
+    }
+
+    .swipe-stamp.dont-use {
+      left: 1.5rem;
+      color: var(--accent-red);
+      background: var(--accent-red-light);
+      border-color: var(--accent-red);
+      transform: rotate(-10deg);
+    }
+
+    /* Directional Buttons */
+    .swipe-controls {
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+      width: 100%;
+      margin-top: 1.5rem;
+    }
+
+    .swipe-btn {
+      flex: 1;
+      max-width: 200px;
+      padding: 0.85rem 1rem;
+      border-radius: 12px;
+      font-size: 0.92rem;
+      font-weight: 700;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+      box-shadow: var(--shadow-sm);
+    }
+
+    .swipe-btn.btn-dont-use {
+      background: #ffffff;
+      border: 1.5px solid #fecaca;
+      color: var(--accent-red);
+    }
+
+    .swipe-btn.btn-dont-use:hover {
+      background: var(--accent-red-light);
+      border-color: var(--accent-red);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(220, 38, 38, 0.15);
+    }
+
+    .swipe-btn.btn-use-ai {
+      background: #ffffff;
+      border: 1.5px solid #a7f3d0;
+      color: var(--accent-green);
+    }
+
+    .swipe-btn.btn-use-ai:hover {
+      background: var(--accent-green-light);
+      border-color: var(--accent-green);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(5, 150, 105, 0.15);
+    }
+
+    .swipe-instructions {
+      text-align: center;
+      font-size: 0.82rem;
+      color: var(--text-dim);
+      margin-top: 1rem;
+    }
+
+    /* =========================================================
+       SCORE & DRILL DOWN SCREEN
+       ========================================================= */
+    .results-card {
+      background: #ffffff;
+      border: 1px solid var(--border-light);
+      border-radius: 20px;
+      padding: 2.25rem 2rem;
+      width: 100%;
+      max-width: 660px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      box-shadow: var(--shadow-lg);
+    }
+
+    .results-header-tag {
+      font-size: 0.76rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--primary);
+      background: var(--primary-light);
+      padding: 0.25rem 0.85rem;
+      border-radius: 9999px;
+      margin-bottom: 1.25rem;
+      border: 1px solid var(--primary-border);
+    }
+
+    .glowing-circle-wrapper {
+      position: relative;
+      width: 150px;
+      height: 150px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0.5rem 0 1.25rem 0;
+    }
+
+    .glowing-circle {
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      background: radial-gradient(circle at 35% 35%, #ffffff 0%, #f8fafc 80%);
+      border: 3px solid #6366f1;
+      box-shadow: 
+        0 0 25px rgba(99, 102, 241, 0.3),
+        0 0 50px rgba(99, 102, 241, 0.15),
+        inset 0 0 15px rgba(99, 102, 241, 0.1);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      animation: lightPulse 3s ease-in-out infinite alternate;
+    }
+
+    .glowing-circle::before {
+      content: "";
+      position: absolute;
+      top: -6px;
+      left: -6px;
+      right: -6px;
+      bottom: -6px;
+      border-radius: 50%;
+      border: 2px dashed rgba(99, 102, 241, 0.35);
+      animation: rotateRing 24s linear infinite;
+    }
+
+    @keyframes lightPulse {
+      0% {
+        box-shadow: 0 0 20px rgba(99, 102, 241, 0.25), inset 0 0 12px rgba(99, 102, 241, 0.08);
+        transform: scale(1);
+      }
+      100% {
+        box-shadow: 0 0 35px rgba(99, 102, 241, 0.4), 0 0 60px rgba(99, 102, 241, 0.15), inset 0 0 18px rgba(99, 102, 241, 0.12);
+        transform: scale(1.02);
+      }
+    }
+
+    @keyframes rotateRing {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    .score-display {
+      display: flex;
+      align-items: baseline;
+      justify-content: center;
+      z-index: 2;
+    }
+
+    .score-number {
+      font-size: 4.25rem;
+      font-weight: 800;
+      color: #312e81;
+      line-height: 1;
+      text-shadow: 0 0 20px rgba(99, 102, 241, 0.35);
+      font-feature-settings: "tnum";
+    }
+
+    .score-denominator {
+      font-size: 1.75rem;
+      font-weight: 700;
+      color: #64748b;
+      line-height: 1;
+      margin-left: 2px;
+      vertical-align: sub;
+      opacity: 0.85;
+    }
+
+    .results-feedback-title {
+      font-size: 1.45rem;
+      font-weight: 800;
+      color: #0f172a;
+      letter-spacing: -0.02em;
+      margin-bottom: 0.35rem;
+      text-align: center;
+    }
+
+    .results-feedback-desc {
+      font-size: 0.92rem;
+      color: var(--text-muted);
+      text-align: center;
+      margin-bottom: 1.75rem;
+      max-width: 500px;
+    }
+
+    .drilldown-section {
+      width: 100%;
+      margin-bottom: 2rem;
+    }
+
+    .drilldown-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 0.95rem;
+      padding-bottom: 0.65rem;
+      border-bottom: 1px solid var(--border-light);
+    }
+
+    .drilldown-title {
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: #1e293b;
+      display: flex;
+      align-items: center;
+      gap: 0.45rem;
+    }
+
+    .drilldown-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+
+    .drilldown-item {
+      background: #ffffff;
+      border: 1px solid var(--border-light);
+      border-radius: 12px;
+      padding: 1rem 1.15rem;
+      box-shadow: var(--shadow-sm);
+      transition: all 0.2s ease;
+    }
+
+    .drilldown-item.is-correct {
+      border-left: 4px solid var(--accent-green);
+    }
+
+    .drilldown-item.is-wrong {
+      border-left: 4px solid var(--accent-red);
+      background: #fffcfc;
+    }
+
+    .drilldown-top-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 0.75rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .drilldown-item-name {
+      font-size: 0.94rem;
+      font-weight: 600;
+      color: #1e293b;
+      line-height: 1.35;
+      flex: 1;
+    }
+
+    .drilldown-badge {
+      font-size: 0.74rem;
+      font-weight: 700;
+      padding: 0.2rem 0.65rem;
+      border-radius: 9999px;
+      flex-shrink: 0;
+    }
+
+    .drilldown-badge.correct {
+      background: var(--accent-green-light);
+      color: #047857;
+      border: 1px solid var(--accent-green-border);
+    }
+
+    .drilldown-badge.wrong {
+      background: var(--accent-red-light);
+      color: #b91c1c;
+      border: 1px solid var(--accent-red-border);
+    }
+
+    .drilldown-comparison {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      font-size: 0.82rem;
+      margin-bottom: 0.65rem;
+      color: var(--text-dim);
+    }
+
+    .drilldown-ans strong {
+      color: #0f172a;
+    }
+
+    .drilldown-explanation {
+      font-size: 0.84rem;
+      line-height: 1.55;
+      color: #334155;
+      background: var(--bg-subtle);
+      padding: 0.75rem 0.95rem;
+      border-radius: 8px;
+      border-left: 3px solid var(--primary);
+    }
+
+    .drilldown-explanation .slide-ref {
+      font-weight: 600;
+      color: var(--primary);
+      font-size: 0.78rem;
+      display: block;
+      margin-top: 0.35rem;
+    }
+
+    #confetti-canvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      pointer-events: none;
+      z-index: 1000;
+    }
+
+    .session-host-tag {
+      font-size: 0.78rem;
+      color: var(--text-dim);
+      margin-top: 1.5rem;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Confetti Canvas -->
+  <canvas id="confetti-canvas"></canvas>
+
+  <!-- Top App Navigation -->
+  <header>
+    <div class="brand">
+      <span class="brand-tag">Interactive Workshop</span>
+      <div>
+        <div class="brand-title">Introduction to AI</div>
+        <div class="brand-subtitle">Session Facilitator: Ime Inyang</div>
+      </div>
+    </div>
+    <div class="header-controls">
+      <button class="icon-btn" id="sound-toggle-btn" title="Toggle Sound (Mute/Unmute)" aria-label="Toggle Sound">
+        🔊
+      </button>
+      <button class="icon-btn" id="restart-all-btn" title="Restart Session" aria-label="Restart Session">
+        🔄
+      </button>
+    </div>
+  </header>
+
+  <!-- Main Container -->
+  <main>
+
+    <!-- Navigation Stepper -->
+    <nav class="steps-nav" id="steps-nav">
+      <div class="step-pill active" id="step-pill-1">
+        <span>1</span> Round 1: Is it AI?
+      </div>
+      <div class="step-pill" id="step-pill-2">
+        <span>2</span> Round 2: Should AI be Used?
+      </div>
+      <div class="step-pill" id="step-pill-3">
+        <span>3</span> Performance Summary
+      </div>
+    </nav>
+
+    <!-- SCREEN 0: WELCOME SCREEN -->
+    <div class="view-screen active" id="screen-intro">
+      <div class="hero-card">
+        <div class="hero-badge-row">
+          <span class="hero-pill">Executive Learning Companion</span>
+        </div>
+        <h1 class="hero-title">Assess Your AI Intuition</h1>
+        <p class="hero-desc">
+          Test your comprehension of foundational AI concepts and ethical boundaries presented in 
+          <strong>"Introduction to AI"</strong> through two concise decision modules.
+        </p>
+
+        <div class="hero-modules-grid">
+          <div class="hero-module-box">
+            <div class="hero-module-header">
+              <span>📋</span>
+              <span>Round 1: Classification</span>
+            </div>
+            <p>Sort 6 real-world technology use cases into <strong>AI</strong> or <strong>NOT AI</strong>.</p>
+          </div>
+          <div class="hero-module-box">
+            <div class="hero-module-header">
+              <span>⚖️</span>
+              <span>Round 2: Evaluation</span>
+            </div>
+            <p>Review practical operational scenarios individually and decide whether to <strong>USE AI</strong> or <strong>DON'T USE</strong>.</p>
+          </div>
+        </div>
+
+        <button class="btn-primary" id="start-game-btn">
+          <span>Begin Round 1</span>
+          <span>→</span>
+        </button>
+      </div>
+      <div class="session-host-tag">Optimized for mobile touchscreens, tablets, and desktop browsers</div>
+    </div>
+
+    <!-- SCREEN 1: ROUND 1 (DRAG & DROP) -->
+    <div class="view-screen" id="screen-round1">
+      <div class="round-header">
+        <span class="round-tag">Module 1 of 2</span>
+        <h2 class="round-title">Is it AI?</h2>
+        <p class="round-subtitle">Drag each scenario into its appropriate category, or use the quick classification buttons.</p>
+      </div>
+
+      <!-- Target Boxes -->
+      <div class="sorting-grid">
+        <!-- AI Box -->
+        <div class="drop-zone ai-zone" id="zone-ai" data-zone="ai">
+          <div class="zone-header">
+            <div class="zone-title">
+              <span>🤖</span>
+              <span>Artificial Intelligence (AI)</span>
+            </div>
+            <span class="zone-count" id="count-ai">0 items</span>
+          </div>
+          <div class="zone-content" id="content-ai">
+            <div class="empty-placeholder">
+              <span>📥</span>
+              <p>Drag AI scenarios here</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- NOT AI Box -->
+        <div class="drop-zone not-ai-zone" id="zone-not-ai" data-zone="not-ai">
+          <div class="zone-header">
+            <div class="zone-title">
+              <span>⚙️</span>
+              <span>Standard Software (NOT AI)</span>
+            </div>
+            <span class="zone-count" id="count-not-ai">0 items</span>
+          </div>
+          <div class="zone-content" id="content-not-ai">
+            <div class="empty-placeholder">
+              <span>📥</span>
+              <p>Drag NOT AI scenarios here</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Scenarios Waiting Area -->
+      <div class="tray-section">
+        <div class="tray-header">
+          <div class="tray-title">
+            <span>📋</span>
+            <span>Scenarios to Classify (<span id="tray-count">6</span> remaining)</span>
+          </div>
+          <button class="btn-secondary" id="reset-round1-btn" style="padding: 0.35rem 0.75rem; font-size: 0.78rem;">
+            Reset All
+          </button>
+        </div>
+        <div class="tray-items-grid" id="tray-items-container"></div>
+      </div>
+
+      <!-- Submission Control -->
+      <div class="round-actions">
+        <button class="btn-primary" id="submit-round1-btn">
+          <span>Evaluate Round 1</span>
+          <span>✓</span>
+        </button>
+        <span class="round-actions-hint" id="round1-hint">Assign all 6 scenarios to view your evaluation</span>
+      </div>
+    </div>
+
+    <!-- SCREEN 2: ROUND 1 SCORE & DRILL DOWN -->
+    <div class="view-screen" id="screen-round1-score">
+      <div class="results-card">
+        <span class="results-header-tag">Round 1 Evaluation</span>
+
+        <div class="glowing-circle-wrapper">
+          <div class="glowing-circle">
+            <div class="score-display">
+              <span class="score-number" id="r1-score-num">0</span>
+              <sub class="score-denominator" id="r1-score-den">/6</sub>
+            </div>
+          </div>
+        </div>
+
+        <h3 class="results-feedback-title" id="r1-feedback-title">Evaluation Complete</h3>
+        <p class="results-feedback-desc" id="r1-feedback-desc">Review your results and foundational rationale below.</p>
+
+        <div class="drilldown-section">
+          <div class="drilldown-header">
+            <span class="drilldown-title">
+              <span>🔍</span>
+              <span>Detailed Breakdown & Slide Rationale</span>
+            </span>
+            <span id="r1-accuracy-badge" style="font-size: 0.82rem; font-weight: 700; color: var(--primary);"></span>
+          </div>
+          <div class="drilldown-list" id="r1-drilldown-list"></div>
+        </div>
+
+        <button class="btn-primary" id="goto-round2-btn">
+          <span>Proceed to Round 2</span>
+          <span>→</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- SCREEN 3: ROUND 2 (INDIVIDUAL CARD SWIPE) -->
+    <div class="view-screen" id="screen-round2">
+      <div class="round-header">
+        <span class="round-tag">Module 2 of 2</span>
+        <h2 class="round-title">Should AI be used here?</h2>
+        <p class="round-subtitle">Evaluate each case study individually. Swipe left for <strong>DON'T USE</strong> or right for <strong>USE AI</strong>.</p>
+      </div>
+
+      <div class="swipe-arena">
+
+        <!-- Case Progression Tracker showing the 4 cases in sequence -->
+        <div class="case-stepper" id="case-stepper">
+          <div class="case-step active" id="case-step-0">
+            <span>Case G</span>
+          </div>
+          <div class="case-step" id="case-step-1">
+            <span>Case H</span>
+          </div>
+          <div class="case-step" id="case-step-2">
+            <span>Case I</span>
+          </div>
+          <div class="case-step" id="case-step-3">
+            <span>Case J</span>
+          </div>
+        </div>
+
+        <!-- Clean Card Stage (One card at a time with NO blocking background elements) -->
+        <div class="swipe-card-stage" id="swipe-card-stage">
+          <div class="swipe-card" id="active-swipe-card">
+            <div class="swipe-stamp dont-use" id="stamp-dont-use">DON'T USE</div>
+            <div class="swipe-stamp use-ai" id="stamp-use-ai">USE AI</div>
+
+            <div class="swipe-card-badge-row">
+              <span class="swipe-card-id" id="swipe-card-letter">Case G</span>
+              <span class="swipe-card-progress" id="swipe-card-progress">1 of 4</span>
+            </div>
+
+            <div class="swipe-card-body">
+              <div class="swipe-card-icon" id="swipe-card-icon">📄</div>
+              <h3 class="swipe-card-title" id="swipe-card-text">Loading case study...</h3>
+            </div>
+
+            <div class="swipe-card-footer">
+              <span>← Swipe Left: DON'T USE</span>
+              <span>Swipe Right: USE AI →</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Direct Click Buttons -->
+        <div class="swipe-controls">
+          <button class="swipe-btn btn-dont-use" id="btn-swipe-left" aria-label="Do Not Use AI">
+            <span>←</span>
+            <span>DON'T USE</span>
+          </button>
+          <button class="swipe-btn btn-use-ai" id="btn-swipe-right" aria-label="Use AI">
+            <span>USE AI</span>
+            <span>→</span>
+          </button>
+        </div>
+
+        <div class="swipe-instructions">
+          Swipe the card, click the buttons above, or use your keyboard <strong>← Left</strong> and <strong>Right →</strong> keys.
+        </div>
+      </div>
+    </div>
+
+    <!-- SCREEN 4: ROUND 2 SCORE & DRILL DOWN -->
+    <div class="view-screen" id="screen-round2-score">
+      <div class="results-card">
+        <span class="results-header-tag">Round 2 Evaluation</span>
+
+        <div class="glowing-circle-wrapper">
+          <div class="glowing-circle">
+            <div class="score-display">
+              <span class="score-number" id="r2-score-num">0</span>
+              <sub class="score-denominator" id="r2-score-den">/4</sub>
+            </div>
+          </div>
+        </div>
+
+        <h3 class="results-feedback-title" id="r2-feedback-title">Decision Review Complete</h3>
+        <p class="results-feedback-desc" id="r2-feedback-desc">Analyze the governance and risk considerations below.</p>
+
+        <div class="drilldown-section">
+          <div class="drilldown-header">
+            <span class="drilldown-title">
+              <span>🔍</span>
+              <span>Decision Rationale & Governance</span>
+            </span>
+            <span id="r2-accuracy-badge" style="font-size: 0.82rem; font-weight: 700; color: var(--primary);"></span>
+          </div>
+          <div class="drilldown-list" id="r2-drilldown-list"></div>
+        </div>
+
+        <button class="btn-primary" id="goto-final-btn">
+          <span>View Overall Summary</span>
+          <span>→</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- SCREEN 5: OVERALL FINAL SUMMARY -->
+    <div class="view-screen" id="screen-final">
+      <div class="results-card" style="max-width: 600px;">
+        <span class="results-header-tag" style="background: var(--accent-green-light); color: #047857; border-color: var(--accent-green-border);">
+          Workshop Completion
+        </span>
+
+        <div class="glowing-circle-wrapper" style="width: 165px; height: 165px;">
+          <div class="glowing-circle" style="border-color: #0284c7; box-shadow: 0 0 30px rgba(2, 132, 199, 0.3), inset 0 0 15px rgba(2, 132, 199, 0.1);">
+            <div class="score-display">
+              <span class="score-number" id="final-score-num" style="font-size: 4.75rem; color: #0369a1; text-shadow: 0 0 20px rgba(2, 132, 199, 0.35);">0</span>
+              <sub class="score-denominator" id="final-score-den" style="font-size: 1.85rem; color: #0284c7;">/10</sub>
+            </div>
+          </div>
+        </div>
+
+        <h3 class="results-feedback-title" id="final-title">Strong AI Literacy</h3>
+        <p class="results-feedback-desc" id="final-desc">
+          You demonstrated a clear command of AI applications, technological limitations, and professional safeguards.
+        </p>
+
+        <div style="display: flex; gap: 1rem; width: 100%; margin-bottom: 1.75rem;">
+          <div style="flex: 1; background: var(--bg-subtle); border: 1px solid var(--border-light); border-radius: 12px; padding: 1rem; text-align: center;">
+            <div style="font-size: 0.76rem; color: var(--text-dim); margin-bottom: 0.25rem;">Round 1 (Is it AI?)</div>
+            <div style="font-size: 1.45rem; font-weight: 800; color: #0369a1;" id="summary-r1-score">0/6</div>
+          </div>
+          <div style="flex: 1; background: var(--bg-subtle); border: 1px solid var(--border-light); border-radius: 12px; padding: 1rem; text-align: center;">
+            <div style="font-size: 0.76rem; color: var(--text-dim); margin-bottom: 0.25rem;">Round 2 (Should AI be Used?)</div>
+            <div style="font-size: 1.45rem; font-weight: 800; color: #4338ca;" id="summary-r2-score">0/4</div>
+          </div>
+        </div>
+
+        <div style="display: flex; flex-direction: column; gap: 0.75rem; width: 100%; align-items: center;">
+          <button class="btn-primary" id="play-again-btn">
+            <span>Restart Exercise</span>
+            <span>🔄</span>
+          </button>
+          <button class="btn-secondary" id="review-r1-btn" style="width: 100%; max-width: 320px;">
+            Review Round 1 Explanations
+          </button>
+          <button class="btn-secondary" id="review-r2-btn" style="width: 100%; max-width: 320px;">
+            Review Round 2 Explanations
+          </button>
+        </div>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- Floating Drag Clone for Visual Feedback during Round 1 -->
+  <div id="drag-ghost" class="scenario-card" style="display: none; width: 280px;"></div>
+
+  <script>
+    /* =========================================================
+       PEDAGOGICAL DATA GROUNDED IN SLIDE CONTENT
+       ========================================================= */
+
+    const ROUND_1_ITEMS = [
+      {
+        id: "A",
+        text: "A calculator adds 250 + 450",
+        icon: "🧮",
+        correct: "not-ai",
+        categoryName: "NOT AI",
+        explanation: "Traditional software operates strictly on predefined deterministic rules (IF X → DO Y). It executes basic arithmetic without learning patterns or adjusting from data.",
+        slideRef: "Slide 3: 'Traditional software — Programmer writes the rules: IF X → DO Y'"
+      },
+      {
+        id: "B",
+        text: "Email automatically identifies spam",
+        icon: "📧",
+        correct: "ai",
+        categoryName: "AI",
+        explanation: "Modern email spam detection applies machine learning classification, constantly learning evolving patterns and language cues from millions of historical emails.",
+        slideRef: "Slide 3 & 10: 'System learns patterns from examples' & 'Classify: Which category?'"
+      },
+      {
+        id: "C",
+        text: "A photocopier makes 20 copies",
+        icon: "🖨️",
+        correct: "not-ai",
+        categoryName: "NOT AI",
+        explanation: "This is a mechanical reproduction process governed by fixed hardware commands. No algorithmic reasoning, pattern recognition, or machine learning takes place.",
+        slideRef: "Slide 2 & 3: Automation vs machine intelligence"
+      },
+      {
+        id: "D",
+        text: "Your phone recognises your face",
+        icon: "📱",
+        correct: "ai",
+        categoryName: "AI",
+        explanation: "Facial recognition uses deep computer vision neural networks to extract spatial facial landmarks, verifying identity despite lighting, hair, or angle changes.",
+        slideRef: "Slide 7: 'AI That Can See — Computer Vision: Face recognition (Google Photos, biometrics)'"
+      },
+      {
+        id: "E",
+        text: "A camera detects people entering a building",
+        icon: "📹",
+        correct: "ai",
+        categoryName: "AI",
+        explanation: "Automated person detection uses computer vision models to distinguish human silhouettes and movements in real-time from vehicles, animals, or shadows.",
+        slideRef: "Slide 7: 'Video → Security cameras, object & pattern detection'"
+      },
+      {
+        id: "F",
+        text: "A system predicts equipment failure",
+        icon: "⚙️",
+        correct: "ai",
+        categoryName: "AI",
+        explanation: "Predictive maintenance algorithms analyze multivariate sensor telemetry (temperature, vibration, run-time) to forecast mechanical degradation before failure occurs.",
+        slideRef: "Slide 10: 'Machine Learning Can Find Patterns — Predict: What might happen?'"
+      }
+    ];
+
+    const ROUND_2_ITEMS = [
+      {
+        id: "G",
+        text: "Drafting a routine office announcement",
+        icon: "📢",
+        correct: "use-ai",
+        decisionLabel: "USE AI",
+        explanation: "Ideal application: Routine drafting is repetitive and time-consuming. Generative AI accelerates first-draft creation while allowing human professionals to refine the tone.",
+        slideRef: "Slide 11 & 12: 'Good Candidates: Repetitive, Time-consuming, First draft creation'"
+      },
+      {
+        id: "H",
+        text: "Summarising a university policy",
+        icon: "📜",
+        correct: "use-ai",
+        decisionLabel: "USE AI",
+        explanation: "Effective application: Distilling lengthy institutional documentation saves valuable reading time, provided critical operational clauses are quickly cross-checked.",
+        slideRef: "Slide 9 & 12: 'Summarise this policy' • 'Information-heavy: There is too much to process'"
+      },
+      {
+        id: "I",
+        text: "Uploading confidential student records to an unknown AI tool",
+        icon: "🔒",
+        correct: "dont-use",
+        decisionLabel: "DON'T USE",
+        explanation: "Pause & Think: Critical Privacy Hazard! Uploading personally identifiable student information to unvetted third-party platforms violates institutional privacy policies and regulatory standards (FERPA / GDPR).",
+        slideRef: "Slide 12 & 13: 'Pause & Think: Sensitive? 🔒 Create privacy risks'"
+      },
+      {
+        id: "J",
+        text: "Making a final disciplinary decision about a student",
+        icon: "⚖️",
+        correct: "dont-use",
+        decisionLabel: "DON'T USE",
+        explanation: "Pause & Think: High-Stakes & Moral Nuance. Disciplinary judgments impact lives and careers. AI models can reflect systemic bias and lack human empathy. Human judgment remains essential.",
+        slideRef: "Slide 12 & 13: 'High-stakes? ⚠️ Requires human judgement? AI can reflect bias. Human judgement remains essential.'"
+      }
+    ];
+
+    /* =========================================================
+       AUDIO SYNTHESIZER
+       ========================================================= */
+    class ProfessionalAudio {
+      constructor() {
+        this.ctx = null;
+        this.enabled = true;
+      }
+
+      init() {
+        if (!this.ctx) {
+          const AudioContext = window.AudioContext || window.webkitAudioContext;
+          if (AudioContext) {
+            this.ctx = new AudioContext();
+          }
+        }
+        if (this.ctx && this.ctx.state === 'suspended') {
+          this.ctx.resume();
+        }
+      }
+
+      toggle() {
+        this.enabled = !this.enabled;
+        return this.enabled;
+      }
+
+      playTone(freq, type = "sine", duration = 0.1, gainVal = 0.08) {
+        if (!this.enabled) return;
+        this.init();
+        if (!this.ctx) return;
+
+        try {
+          const osc = this.ctx.createOscillator();
+          const gain = this.ctx.createGain();
+          osc.type = type;
+          osc.frequency.setValueAtTime(freq, this.ctx.currentTime);
+
+          gain.gain.setValueAtTime(gainVal, this.ctx.currentTime);
+          gain.gain.exponentialRampToValueAtTime(0.0001, this.ctx.currentTime + duration);
+
+          osc.connect(gain);
+          gain.connect(this.ctx.destination);
+
+          osc.start();
+          osc.stop(this.ctx.currentTime + duration);
+        } catch (e) {}
+      }
+
+      pickup() {
+        this.playTone(400, "sine", 0.06, 0.05);
+      }
+
+      drop() {
+        this.playTone(520, "sine", 0.07, 0.07);
+      }
+
+      swipe() {
+        this.playTone(340, "triangle", 0.09, 0.06);
+      }
+
+      chimeSuccess() {
+        if (!this.enabled) return;
+        const chords = [523.25, 659.25, 783.99];
+        chords.forEach((freq, idx) => {
+          setTimeout(() => {
+            this.playTone(freq, "sine", 0.28, 0.09);
+          }, idx * 75);
+        });
+      }
+
+      fanfare() {
+        if (!this.enabled) return;
+        const chords = [440, 554.37, 659.25, 880];
+        chords.forEach((freq, idx) => {
+          setTimeout(() => {
+            this.playTone(freq, "sine", 0.32, 0.1);
+          }, idx * 80);
+        });
+      }
+    }
+
+    const sound = new ProfessionalAudio();
+
+    /* =========================================================
+       CONFETTI SYSTEM
+       ========================================================= */
+    const canvas = document.getElementById('confetti-canvas');
+    const ctx = canvas.getContext('2d');
+    let particles = [];
+    let animId = null;
+
+    function resizeCanvas() {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    }
+    window.addEventListener('resize', resizeCanvas);
+    resizeCanvas();
+
+    function launchConfetti() {
+      resizeCanvas();
+      particles = [];
+      const colors = ['#4338ca', '#0284c7', '#059669', '#d97706', '#64748b'];
+      for (let i = 0; i < 70; i++) {
+        particles.push({
+          x: canvas.width / 2 + (Math.random() - 0.5) * 60,
+          y: canvas.height * 0.4,
+          vx: (Math.random() - 0.5) * 14,
+          vy: Math.random() * -12 - 3,
+          size: Math.random() * 6 + 4,
+          color: colors[Math.floor(Math.random() * colors.length)],
+          rotation: Math.random() * 360,
+          vRot: (Math.random() - 0.5) * 10,
+          gravity: 0.38,
+          opacity: 1
+        });
+      }
+
+      if (animId) cancelAnimationFrame(animId);
+      animateConfetti();
+    }
+
+    function animateConfetti() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      let alive = false;
+
+      for (let p of particles) {
+        p.x += p.vx;
+        p.vy += p.gravity;
+        p.y += p.vy;
+        p.rotation += p.vRot;
+        p.opacity -= 0.01;
+
+        if (p.opacity > 0 && p.y < canvas.height + 20) {
+          alive = true;
+          ctx.save();
+          ctx.translate(p.x, p.y);
+          ctx.rotate((p.rotation * Math.PI) / 180);
+          ctx.fillStyle = p.color;
+          ctx.globalAlpha = Math.max(0, p.opacity);
+          ctx.fillRect(-p.size / 2, -p.size / 2, p.size, p.size * 0.7);
+          ctx.restore();
+        }
+      }
+
+      if (alive) {
+        animId = requestAnimationFrame(animateConfetti);
+      } else {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+      }
+    }
+
+    /* =========================================================
+       APP STATE MANAGEMENT
+       ========================================================= */
+    const state = {
+      currentScreen: "intro",
+      round1Assignments: {},
+      round1Score: 0,
+      round2Index: 0,
+      round2Answers: {},
+      round2Score: 0
+    };
+
+    function showScreen(screenId) {
+      document.querySelectorAll('.view-screen').forEach(s => s.classList.remove('active'));
+      const target = document.getElementById(`screen-${screenId}`);
+      if (target) {
+        target.classList.add('active');
+        state.currentScreen = screenId;
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
+
+      // Ensure ghost element is always hidden on screen changes
+      const ghostEl = document.getElementById('drag-ghost');
+      if (ghostEl) {
+        ghostEl.style.display = 'none';
+        ghostEl.innerHTML = '';
+      }
+
+      const pill1 = document.getElementById('step-pill-1');
+      const pill2 = document.getElementById('step-pill-2');
+      const pill3 = document.getElementById('step-pill-3');
+
+      pill1.className = 'step-pill';
+      pill2.className = 'step-pill';
+      pill3.className = 'step-pill';
+
+      if (screenId === 'intro' || screenId === 'round1') {
+        pill1.classList.add('active');
+      } else if (screenId === 'round1-score') {
+        pill1.classList.add('completed');
+        pill2.classList.add('active');
+      } else if (screenId === 'round2') {
+        pill1.classList.add('completed');
+        pill2.classList.add('active');
+      } else if (screenId === 'round2-score') {
+        pill1.classList.add('completed');
+        pill2.classList.add('completed');
+        pill3.classList.add('active');
+      } else if (screenId === 'final') {
+        pill1.classList.add('completed');
+        pill2.classList.add('completed');
+        pill3.classList.add('active', 'completed');
+      }
+    }
+
+    /* =========================================================
+       ROUND 1 LOGIC (Drag & Drop + Mobile Quick Action)
+       ========================================================= */
+    const trayContainer = document.getElementById('tray-items-container');
+    const contentAi = document.getElementById('content-ai');
+    const contentNotAi = document.getElementById('content-not-ai');
+    const countAi = document.getElementById('count-ai');
+    const countNotAi = document.getElementById('count-not-ai');
+    const trayCount = document.getElementById('tray-count');
+    const zoneAi = document.getElementById('zone-ai');
+    const zoneNotAi = document.getElementById('zone-not-ai');
+    const ghost = document.getElementById('drag-ghost');
+
+    let draggedItemId = null;
+    let pointerStartX = 0;
+    let pointerStartY = 0;
+    let isDragging = false;
+
+    function initRound1() {
+      state.round1Assignments = {};
+      renderRound1Items();
+    }
+
+    function createScenarioCardElement(item) {
+      const card = document.createElement('div');
+      card.className = 'scenario-card';
+      card.id = `card-${item.id}`;
+      card.setAttribute('data-id', item.id);
+
+      const assignedZone = state.round1Assignments[item.id] || "tray";
+      card.setAttribute('data-zone', assignedZone);
+
+      card.innerHTML = `
+        <div class="card-text-row">
+          <span class="card-letter">${item.id}</span>
+          <span class="card-text">${item.text}</span>
+        </div>
+        <div class="card-actions-row">
+          <button type="button" class="quick-assign-btn btn-to-ai" data-action="ai" title="Classify as AI">
+            <span>🤖 AI</span>
+          </button>
+          <button type="button" class="quick-assign-btn btn-to-not-ai" data-action="not-ai" title="Classify as NOT AI">
+            <span>⚙️ NOT AI</span>
+          </button>
+          ${assignedZone !== 'tray' ? `
+            <button type="button" class="quick-assign-btn btn-to-tray" data-action="tray" title="Return to unassigned tray">
+              <span>↩</span>
+            </button>
+          ` : ''}
+        </div>
+      `;
+
+      card.addEventListener('pointerdown', handleCardPointerDown);
+
+      card.querySelectorAll('.quick-assign-btn').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+          e.stopPropagation();
+          const action = btn.getAttribute('data-action');
+          assignItemToZone(item.id, action);
+          sound.drop();
+        });
+      });
+
+      return card;
+    }
+
+    function renderRound1Items() {
+      trayContainer.innerHTML = '';
+      contentAi.innerHTML = '';
+      contentNotAi.innerHTML = '';
+
+      let aiCount = 0;
+      let notAiCount = 0;
+      let trayRemaining = 0;
+
+      ROUND_1_ITEMS.forEach(item => {
+        const assignedZone = state.round1Assignments[item.id];
+        const el = createScenarioCardElement(item);
+
+        if (assignedZone === 'ai') {
+          contentAi.appendChild(el);
+          aiCount++;
+        } else if (assignedZone === 'not-ai') {
+          contentNotAi.appendChild(el);
+          notAiCount++;
+        } else {
+          trayContainer.appendChild(el);
+          trayRemaining++;
+        }
+      });
+
+      if (aiCount === 0) {
+        contentAi.innerHTML = `
+          <div class="empty-placeholder">
+            <span>📥</span>
+            <p>Drag AI scenarios here</p>
+          </div>
+        `;
+      }
+      if (notAiCount === 0) {
+        contentNotAi.innerHTML = `
+          <div class="empty-placeholder">
+            <span>📥</span>
+            <p>Drag NOT AI scenarios here</p>
+          </div>
+        `;
+      }
+
+      countAi.textContent = `${aiCount} item${aiCount === 1 ? '' : 's'}`;
+      countNotAi.textContent = `${notAiCount} item${notAiCount === 1 ? '' : 's'}`;
+      trayCount.textContent = trayRemaining;
+
+      const submitBtn = document.getElementById('submit-round1-btn');
+      const hint = document.getElementById('round1-hint');
+
+      if (trayRemaining === 0) {
+        submitBtn.style.opacity = '1';
+        submitBtn.style.pointerEvents = 'auto';
+        hint.textContent = 'All 6 scenarios classified. Click above to view your score.';
+        hint.style.color = 'var(--accent-green)';
+      } else {
+        hint.textContent = `Classify remaining ${trayRemaining} scenario${trayRemaining === 1 ? '' : 's'} to continue`;
+        hint.style.color = 'var(--text-dim)';
+      }
+    }
+
+    function assignItemToZone(itemId, targetZone) {
+      if (targetZone === 'tray') {
+        delete state.round1Assignments[itemId];
+      } else {
+        state.round1Assignments[itemId] = targetZone;
+      }
+      renderRound1Items();
+    }
+
+    function handleCardPointerDown(e) {
+      if (e.target.closest('button')) return;
+      e.preventDefault();
+
+      const card = e.currentTarget;
+      draggedItemId = card.getAttribute('data-id');
+      const itemData = ROUND_1_ITEMS.find(i => i.id === draggedItemId);
+      if (!itemData) return;
+
+      pointerStartX = e.clientX;
+      pointerStartY = e.clientY;
+      isDragging = false;
+
+      try {
+        card.setPointerCapture(e.pointerId);
+      } catch (err) {}
+
+      const onPointerMove = (moveEvt) => {
+        const dx = moveEvt.clientX - pointerStartX;
+        const dy = moveEvt.clientY - pointerStartY;
+
+        if (!isDragging && (Math.abs(dx) > 6 || Math.abs(dy) > 6)) {
+          isDragging = true;
+          sound.pickup();
+          card.classList.add('dragging');
+          ghost.style.display = 'block';
+          ghost.innerHTML = card.innerHTML;
+        }
+
+        if (isDragging) {
+          ghost.style.transform = `translate3d(${moveEvt.clientX - 140}px, ${moveEvt.clientY - 30}px, 0)`;
+
+          const aiRect = zoneAi.getBoundingClientRect();
+          const notAiRect = zoneNotAi.getBoundingClientRect();
+
+          if (isPointInside(moveEvt.clientX, moveEvt.clientY, aiRect)) {
+            zoneAi.classList.add('drag-over');
+            zoneNotAi.classList.remove('drag-over');
+          } else if (isPointInside(moveEvt.clientX, moveEvt.clientY, notAiRect)) {
+            zoneNotAi.classList.add('drag-over');
+            zoneAi.classList.remove('drag-over');
+          } else {
+            zoneAi.classList.remove('drag-over');
+            zoneNotAi.classList.remove('drag-over');
+          }
+        }
+      };
+
+      const onPointerUp = (upEvt) => {
+        try {
+          if (card.hasPointerCapture(e.pointerId)) {
+            card.releasePointerCapture(e.pointerId);
+          }
+        } catch (err) {}
+
+        card.removeEventListener('pointermove', onPointerMove);
+        card.removeEventListener('pointerup', onPointerUp);
+        card.removeEventListener('pointercancel', onPointerUp);
+
+        card.classList.remove('dragging');
+        ghost.style.display = 'none';
+
+        if (isDragging) {
+          const aiRect = zoneAi.getBoundingClientRect();
+          const notAiRect = zoneNotAi.getBoundingClientRect();
+
+          if (isPointInside(upEvt.clientX, upEvt.clientY, aiRect)) {
+            assignItemToZone(draggedItemId, 'ai');
+            sound.drop();
+          } else if (isPointInside(upEvt.clientX, upEvt.clientY, notAiRect)) {
+            assignItemToZone(draggedItemId, 'not-ai');
+            sound.drop();
+          } else {
+            const trayRect = document.querySelector('.tray-section').getBoundingClientRect();
+            if (isPointInside(upEvt.clientX, upEvt.clientY, trayRect)) {
+              assignItemToZone(draggedItemId, 'tray');
+              sound.drop();
+            }
+          }
+        }
+
+        zoneAi.classList.remove('drag-over');
+        zoneNotAi.classList.remove('drag-over');
+        draggedItemId = null;
+        isDragging = false;
+      };
+
+      card.addEventListener('pointermove', onPointerMove);
+      card.addEventListener('pointerup', onPointerUp);
+      card.addEventListener('pointercancel', onPointerUp);
+    }
+
+    function isPointInside(x, y, rect) {
+      return x >= rect.left && x <= rect.right && y >= rect.top && y <= rect.bottom;
+    }
+
+    document.getElementById('submit-round1-btn').addEventListener('click', () => {
+      let score = 0;
+      ROUND_1_ITEMS.forEach(item => {
+        if (state.round1Assignments[item.id] === item.correct) {
+          score++;
+        }
+      });
+      state.round1Score = score;
+      renderRound1ScoreScreen();
+      showScreen('round1-score');
+
+      if (score >= 5) {
+        launchConfetti();
+        sound.chimeSuccess();
+      } else {
+        sound.chimeSuccess();
+      }
+    });
+
+    document.getElementById('reset-round1-btn').addEventListener('click', () => {
+      state.round1Assignments = {};
+      renderRound1Items();
+      sound.pickup();
+    });
+
+    function renderRound1ScoreScreen() {
+      const scoreNum = document.getElementById('r1-score-num');
+      const scoreDen = document.getElementById('r1-score-den');
+      const feedbackTitle = document.getElementById('r1-feedback-title');
+      const feedbackDesc = document.getElementById('r1-feedback-desc');
+      const accuracyBadge = document.getElementById('r1-accuracy-badge');
+      const drilldownList = document.getElementById('r1-drilldown-list');
+
+      scoreNum.textContent = state.round1Score;
+      scoreDen.textContent = '/6';
+
+      const percentage = Math.round((state.round1Score / 6) * 100);
+      accuracyBadge.textContent = `${percentage}% Accuracy`;
+
+      if (state.round1Score === 6) {
+        feedbackTitle.textContent = "Flawless Classification";
+        feedbackDesc.textContent = "Excellent discernment between deterministic software rules and machine learning pattern recognition.";
+      } else if (state.round1Score >= 4) {
+        feedbackTitle.textContent = "Strong Understanding";
+        feedbackDesc.textContent = "Well done! A few subtle automated systems required distinction. Review the explanations below.";
+      } else {
+        feedbackTitle.textContent = "Review Recommended";
+        feedbackDesc.textContent = "Traditional rule-based automation is frequently confused with learning algorithms. Explore the drill downs below.";
+      }
+
+      drilldownList.innerHTML = '';
+      ROUND_1_ITEMS.forEach(item => {
+        const userChoice = state.round1Assignments[item.id] || "unassigned";
+        const isCorrect = userChoice === item.correct;
+
+        const itemEl = document.createElement('div');
+        itemEl.className = `drilldown-item ${isCorrect ? 'is-correct' : 'is-wrong'}`;
+
+        const userLabel = userChoice === 'ai' ? '🤖 AI' : (userChoice === 'not-ai' ? '⚙️ NOT AI' : 'Not Answered');
+        const correctLabel = item.correct === 'ai' ? '🤖 AI' : '⚙️ NOT AI';
+
+        itemEl.innerHTML = `
+          <div class="drilldown-top-row">
+            <div class="drilldown-item-name">
+              <strong>${item.id}.</strong> ${item.text}
+            </div>
+            <span class="drilldown-badge ${isCorrect ? 'correct' : 'wrong'}">
+              ${isCorrect ? '✓ Correct' : '✕ Needs Review'}
+            </span>
+          </div>
+          <div class="drilldown-comparison">
+            <span class="drilldown-ans">Your selection: <strong>${userLabel}</strong></span>
+            <span class="drilldown-ans">Correct classification: <strong style="color: #047857;">${correctLabel}</strong></span>
+          </div>
+          <div class="drilldown-explanation">
+            <div>${item.explanation}</div>
+            <span class="slide-ref">📖 ${item.slideRef}</span>
+          </div>
+        `;
+        drilldownList.appendChild(itemEl);
+      });
+    }
+
+    /* =========================================================
+       ROUND 2 LOGIC (Single Card at a time, Clean Transitions)
+       ========================================================= */
+    const activeSwipeCard = document.getElementById('active-swipe-card');
+    const stampDontUse = document.getElementById('stamp-dont-use');
+    const stampUseAi = document.getElementById('stamp-use-ai');
+    const swipeLetter = document.getElementById('swipe-card-letter');
+    const swipeProgress = document.getElementById('swipe-card-progress');
+    const swipeIcon = document.getElementById('swipe-card-icon');
+    const swipeText = document.getElementById('swipe-card-text');
+
+    let swipeStartX = 0;
+    let currentTranslateX = 0;
+    let isSwiping = false;
+    let cardIsAnimating = false;
+
+    function initRound2() {
+      state.round2Index = 0;
+      state.round2Answers = {};
+      loadCurrentSwipeCard();
+    }
+
+    function updateCaseStepper() {
+      ROUND_2_ITEMS.forEach((item, idx) => {
+        const el = document.getElementById(`case-step-${idx}`);
+        if (!el) return;
+        el.className = 'case-step';
+        if (idx < state.round2Index) {
+          el.classList.add('completed');
+          el.innerHTML = `<span>✓</span> <span>Case ${item.id}</span>`;
+        } else if (idx === state.round2Index) {
+          el.classList.add('active');
+          el.innerHTML = `<span>●</span> <span>Case ${item.id}</span>`;
+        } else {
+          el.innerHTML = `<span>○</span> <span>Case ${item.id}</span>`;
+        }
+      });
+    }
+
+    function loadCurrentSwipeCard() {
+      if (state.round2Index >= ROUND_2_ITEMS.length) {
+        finishRound2();
+        return;
+      }
+
+      cardIsAnimating = false;
+      const currentItem = ROUND_2_ITEMS[state.round2Index];
+      swipeLetter.textContent = `Case ${currentItem.id}`;
+      swipeProgress.textContent = `Question ${state.round2Index + 1} of ${ROUND_2_ITEMS.length}`;
+      swipeIcon.textContent = currentItem.icon;
+      swipeText.textContent = currentItem.text;
+
+      updateCaseStepper();
+
+      activeSwipeCard.style.transition = 'none';
+      activeSwipeCard.style.transform = 'translate3d(0, 0, 0) rotate(0deg)';
+      activeSwipeCard.style.opacity = '1';
+      stampDontUse.style.opacity = '0';
+      stampUseAi.style.opacity = '0';
+    }
+
+    activeSwipeCard.addEventListener('pointerdown', (e) => {
+      if (cardIsAnimating) return;
+      swipeStartX = e.clientX;
+      currentTranslateX = 0;
+      isSwiping = true;
+
+      activeSwipeCard.classList.add('grabbing');
+      try {
+        activeSwipeCard.setPointerCapture(e.pointerId);
+      } catch (err) {}
+      activeSwipeCard.style.transition = 'none';
+
+      const onPointerMove = (moveEvt) => {
+        if (!isSwiping) return;
+        const dx = moveEvt.clientX - swipeStartX;
+        currentTranslateX = dx;
+
+        const rotateDeg = dx * 0.05;
+        activeSwipeCard.style.transform = `translate3d(${dx}px, 0, 0) rotate(${rotateDeg}deg)`;
+
+        const threshold = 50;
+        if (dx > 15) {
+          const ratio = Math.min(1, (dx - 15) / threshold);
+          stampUseAi.style.opacity = ratio;
+          stampDontUse.style.opacity = '0';
+        } else if (dx < -15) {
+          const ratio = Math.min(1, (Math.abs(dx) - 15) / threshold);
+          stampDontUse.style.opacity = ratio;
+          stampUseAi.style.opacity = '0';
+        } else {
+          stampUseAi.style.opacity = '0';
+          stampDontUse.style.opacity = '0';
+        }
+      };
+
+      const onPointerUp = () => {
+        if (!isSwiping) return;
+        isSwiping = false;
+        activeSwipeCard.classList.remove('grabbing');
+        try {
+          if (activeSwipeCard.hasPointerCapture(e.pointerId)) {
+            activeSwipeCard.releasePointerCapture(e.pointerId);
+          }
+        } catch (err) {}
+
+        activeSwipeCard.removeEventListener('pointermove', onPointerMove);
+        activeSwipeCard.removeEventListener('pointerup', onPointerUp);
+        activeSwipeCard.removeEventListener('pointercancel', onPointerUp);
+
+        const threshold = 55;
+        if (currentTranslateX > threshold) {
+          commitSwipe('use-ai');
+        } else if (currentTranslateX < -threshold) {
+          commitSwipe('dont-use');
+        } else {
+          activeSwipeCard.style.transition = 'transform 0.22s cubic-bezier(0.16, 1, 0.3, 1)';
+          activeSwipeCard.style.transform = 'translate3d(0, 0, 0) rotate(0deg)';
+          stampDontUse.style.opacity = '0';
+          stampUseAi.style.opacity = '0';
+        }
+      };
+
+      activeSwipeCard.addEventListener('pointermove', onPointerMove);
+      activeSwipeCard.addEventListener('pointerup', onPointerUp);
+      activeSwipeCard.addEventListener('pointercancel', onPointerUp);
+    });
+
+    function commitSwipe(decision) {
+      if (cardIsAnimating) return;
+      cardIsAnimating = true;
+
+      const currentItem = ROUND_2_ITEMS[state.round2Index];
+      state.round2Answers[currentItem.id] = decision;
+
+      sound.swipe();
+
+      const flyOutX = decision === 'use-ai' ? window.innerWidth * 1.1 : -window.innerWidth * 1.1;
+      const flyRotate = decision === 'use-ai' ? 22 : -22;
+
+      if (decision === 'use-ai') {
+        stampUseAi.style.opacity = '1';
+      } else {
+        stampDontUse.style.opacity = '1';
+      }
+
+      activeSwipeCard.style.transition = 'transform 0.28s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.28s ease';
+      activeSwipeCard.style.transform = `translate3d(${flyOutX}px, 15px, 0) rotate(${flyRotate}deg)`;
+      activeSwipeCard.style.opacity = '0';
+
+      setTimeout(() => {
+        state.round2Index++;
+        loadCurrentSwipeCard();
+      }, 290);
+    }
+
+    document.getElementById('btn-swipe-left').addEventListener('click', () => {
+      commitSwipe('dont-use');
+    });
+
+    document.getElementById('btn-swipe-right').addEventListener('click', () => {
+      commitSwipe('use-ai');
+    });
+
+    window.addEventListener('keydown', (e) => {
+      if (state.currentScreen === 'round2') {
+        if (e.key === 'ArrowLeft') {
+          commitSwipe('dont-use');
+        } else if (e.key === 'ArrowRight') {
+          commitSwipe('use-ai');
+        }
+      }
+    });
+
+    function finishRound2() {
+      let score = 0;
+      ROUND_2_ITEMS.forEach(item => {
+        if (state.round2Answers[item.id] === item.correct) {
+          score++;
+        }
+      });
+      state.round2Score = score;
+      renderRound2ScoreScreen();
+      showScreen('round2-score');
+
+      if (score >= 3) {
+        launchConfetti();
+        sound.chimeSuccess();
+      } else {
+        sound.chimeSuccess();
+      }
+    }
+
+    function renderRound2ScoreScreen() {
+      const scoreNum = document.getElementById('r2-score-num');
+      const scoreDen = document.getElementById('r2-score-den');
+      const feedbackTitle = document.getElementById('r2-feedback-title');
+      const feedbackDesc = document.getElementById('r2-feedback-desc');
+      const accuracyBadge = document.getElementById('r2-accuracy-badge');
+      const drilldownList = document.getElementById('r2-drilldown-list');
+
+      scoreNum.textContent = state.round2Score;
+      scoreDen.textContent = '/4';
+
+      const percentage = Math.round((state.round2Score / 4) * 100);
+      accuracyBadge.textContent = `${percentage}% Accuracy`;
+
+      if (state.round2Score === 4) {
+        feedbackTitle.textContent = "Exemplary Governance";
+        feedbackDesc.textContent = "You balanced high-efficiency AI adoption with necessary compliance and high-stakes caution.";
+      } else if (state.round2Score >= 3) {
+        feedbackTitle.textContent = "Sound Judgment";
+        feedbackDesc.textContent = "Prudent decision making across organizational workflows. Inspect the nuances below.";
+      } else {
+        feedbackTitle.textContent = "Caution Advised";
+        feedbackDesc.textContent = "Remember: high-stakes life outcomes and sensitive student data demand strict human custody.";
+      }
+
+      drilldownList.innerHTML = '';
+      ROUND_2_ITEMS.forEach(item => {
+        const userChoice = state.round2Answers[item.id] || "unanswered";
+        const isCorrect = userChoice === item.correct;
+
+        const itemEl = document.createElement('div');
+        itemEl.className = `drilldown-item ${isCorrect ? 'is-correct' : 'is-wrong'}`;
+
+        const userLabel = userChoice === 'use-ai' ? '→ USE AI' : (userChoice === 'dont-use' ? '← DON\'T USE' : 'Unanswered');
+        const correctLabel = item.correct === 'use-ai' ? '→ USE AI' : '← DON\'T USE';
+
+        itemEl.innerHTML = `
+          <div class="drilldown-top-row">
+            <div class="drilldown-item-name">
+              <strong>${item.id}.</strong> ${item.text}
+            </div>
+            <span class="drilldown-badge ${isCorrect ? 'correct' : 'wrong'}">
+              ${isCorrect ? '✓ Correct' : '✕ Needs Review'}
+            </span>
+          </div>
+          <div class="drilldown-comparison">
+            <span class="drilldown-ans">Your decision: <strong>${userLabel}</strong></span>
+            <span class="drilldown-ans">Recommended policy: <strong style="color: #047857;">${correctLabel}</strong></span>
+          </div>
+          <div class="drilldown-explanation">
+            <div>${item.explanation}</div>
+            <span class="slide-ref">📖 ${item.slideRef}</span>
+          </div>
+        `;
+        drilldownList.appendChild(itemEl);
+      });
+    }
+
+    /* =========================================================
+       FINAL SUMMARY SCREEN
+       ========================================================= */
+    function renderFinalSummary() {
+      const totalScore = state.round1Score + state.round2Score;
+      document.getElementById('final-score-num').textContent = totalScore;
+      document.getElementById('final-score-den').textContent = '/10';
+
+      document.getElementById('summary-r1-score').textContent = `${state.round1Score}/6`;
+      document.getElementById('summary-r2-score').textContent = `${state.round2Score}/4`;
+
+      const titleEl = document.getElementById('final-title');
+      const descEl = document.getElementById('final-desc');
+
+      if (totalScore >= 9) {
+        titleEl.textContent = "Distinguished AI Proficiency";
+        descEl.textContent = "Superb executive intuition. You understand precisely where AI accelerates productivity and where human leadership is non-negotiable.";
+      } else if (totalScore >= 7) {
+        titleEl.textContent = "Competent AI Practitioner";
+        descEl.textContent = "Solid overall evaluation. You are equipped to implement AI tools effectively while honoring core governance safeguards.";
+      } else {
+        titleEl.textContent = "Valuable Professional Insights";
+        descEl.textContent = "This exercise highlighted key distinctions from Ime Inyang's session to guide your everyday technological and policy decisions.";
+      }
+
+      launchConfetti();
+      sound.fanfare();
+    }
+
+    /* =========================================================
+       NAVIGATION LISTENERS
+       ========================================================= */
+    document.getElementById('start-game-btn').addEventListener('click', () => {
+      initRound1();
+      showScreen('round1');
+      sound.chimeSuccess();
+    });
+
+    document.getElementById('goto-round2-btn').addEventListener('click', () => {
+      initRound2();
+      showScreen('round2');
+      sound.chimeSuccess();
+    });
+
+    document.getElementById('goto-final-btn').addEventListener('click', () => {
+      renderFinalSummary();
+      showScreen('final');
+    });
+
+    document.getElementById('play-again-btn').addEventListener('click', () => {
+      initRound1();
+      showScreen('round1');
+      sound.chimeSuccess();
+    });
+
+    document.getElementById('review-r1-btn').addEventListener('click', () => {
+      showScreen('round1-score');
+    });
+
+    document.getElementById('review-r2-btn').addEventListener('click', () => {
+      showScreen('round2-score');
+    });
+
+    document.getElementById('restart-all-btn').addEventListener('click', () => {
+      if (confirm("Reset workshop exercise to the beginning?")) {
+        initRound1();
+        showScreen('intro');
+      }
+    });
+
+    const soundToggleBtn = document.getElementById('sound-toggle-btn');
+    soundToggleBtn.addEventListener('click', () => {
+      const isEnabled = sound.toggle();
+      soundToggleBtn.textContent = isEnabled ? '🔊' : '🔇';
+      soundToggleBtn.title = isEnabled ? 'Sound is ON' : 'Sound is MUTED';
+    });
+
+    document.getElementById('step-pill-1').addEventListener('click', () => {
+      if (state.currentScreen !== 'intro') {
+        showScreen('round1');
+      }
+    });
+
+    document.getElementById('step-pill-2').addEventListener('click', () => {
+      if (state.round1Score !== undefined || state.currentScreen === 'round2' || state.currentScreen === 'round2-score') {
+        if (state.round2Index === 0) initRound2();
+        showScreen('round2');
+      }
+    });
+
+    document.getElementById('step-pill-3').addEventListener('click', () => {
+      if (state.round2Score !== undefined) {
+        renderFinalSummary();
+        showScreen('final');
+      }
+    });
+
+    initRound1();
+  </script>
+</body>
+</html>
