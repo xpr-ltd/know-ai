@@ -88,6 +88,16 @@ python -m http.server 8000
 npx serve .
 ```
 
+### Deploy to Vercel
+1. Import the repository (`xpr-ltd/know-ai`) in your [Vercel Dashboard](https://vercel.com/new).
+2. Configure project settings:
+   - **Framework Preset**: **`Other`**
+   - **Root Directory**: `./` (default)
+   - **Build Command**: *Leave blank* (none needed)
+   - **Output Directory**: *Leave blank* or `.` (root)
+   - **Install Command**: *Leave blank*
+3. Click **Deploy**. Vercel will automatically read the included `vercel.json` and serve the site instantly with global edge routing.
+
 ### Deploy to GitHub Pages
 1. Go to repository **Settings** > **Pages**.
 2. Under **Build and deployment** > **Branch**, select `main` (or `master`) and folder `/ (root)`.
@@ -100,6 +110,7 @@ npx serve .
 ```
 know-ai/
 ├── index.html       # Complete self-contained single-page application (UI, CSS, JS, Audio)
+├── vercel.json      # Vercel configuration for static single-page routing
 └── README.md        # Workshop overview and facilitator documentation
 ```
 
